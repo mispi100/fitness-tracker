@@ -1,0 +1,66 @@
+---
+title: "Course Project 1 Fitness Tracker"
+author: "Michaela Spiegel"
+date: "5 Januar 2018"
+output: html_document
+---
+## Loading and preprocessing the data 
+
+First the data of a fitness tracker is loaded.
+
+It contains three columns, the number of steps, the date and interval.
+
+The data was recorded in October and November 2012 
+in 5 minute intervals, which leads to 288 intervals per day
+
+```{r load data, echo = TRUE}
+activity <- read.csv("activity.csv")
+head(activity,3)
+str(activity)
+```
+The date column is transformed into a Date format.
+
+```{r preprocess data, echo = TRUE}
+library(lubridate)
+activity$date <- ymd(activity$date)
+#activity$year <- year(activity$date)
+str(activity)
+```
+## What is the mean total number of steps taken per day?
+
+The steps taken on every day, were measured in 5 minute intervals.
+Now they are summed up for each day.
+
+
+```{r mean steps, echo = TRUE}
+steps_per_day <- aggregate(activity$steps, by = list(activity$date), FUN = sum, na.rm = TRUE)
+names(steps_per_day) <- c("date", "steps")
+```
+The histgram shows the frequencies of total steps per day 
+in intervals of 5,000 steps. 
+
+```{r hist mean steps, echo = TRUE}
+hist(steps_per_day$steps,col = "indianred", main = "histogram of total steps per day", xlab = "Steps per Day")
+```
+
+Most often between 10,000 and 15,000 steps
+were taken.
+
+The summary shows us that the mean number of total steps per
+day is 9,354 steps and the median 10,395 steps.
+```{r summary mean steps, echo = TRUE}
+summary(steps_per_day$steps)
+```
+
+## What is the average daily activity pattern?
+
+```{r time series}
+mean_steps_interval <- aggregate(activity$steps, by = list(activity$interval), FUN = mean, na.rm=TRUE)
+names(mean_steps_interval) <- c("interval", "mean steps")
+plot(mean_steps_interval, type="l")
+```
+
+
+## Imputing missing values
+
+## Are there differences in activity patterns between weekdays and weekends?
