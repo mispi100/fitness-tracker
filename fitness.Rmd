@@ -2,7 +2,7 @@
 title: "Course Project 1 Fitness Tracker"
 author: "Michaela Spiegel"
 date: "11 April 2018"
-output: html_document
+output: md_document
 ---
 
 ## Loading and preprocessing the data 
